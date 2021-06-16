@@ -1,11 +1,22 @@
-import { useState } from 'react';
-const ContactForm = ({ addContact }) => {
+import { useState, useEffect } from 'react';
+const ContactForm = ({ addContact, id, firstName, phone, updateContact, setEditing }) => {
   const [contact, setContact] = useState({ firstName: "", phone: "" })
   // const [firstName, setFirstName] = useState("")
   // const [phone, setPhone] = useState("")
+  useEffect( () => {
+    if (id) {
+      // setContact({ firstName: firstName, phone: phone })
+      setContact({ firstName, phone, id: id})
+    }
+  }, [])
   const handleSubmit = (e) => {
     e.preventDefault()
-    addContact(contact)
+    if (id) {
+      updateContact(id, contact)
+      setEditing(false)
+    } else {
+      addContact(contact)
+    }
     setContact({ firstName: "", phone: "" })
   }
   return (
